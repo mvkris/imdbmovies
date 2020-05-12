@@ -1,17 +1,9 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
-public class Project {
-
-    private static String imdbURL = "https://www.imdb.com/chart/top/";
-
+public class ParserOutput {
     public static void showMoviesByYear(List<IMDBMovie> filmList) {
         filmList.sort((movie1, movie2) -> movie1.year - movie2.year);
         System.out.println("");
@@ -179,36 +171,5 @@ public class Project {
         for (Map.Entry<String, Integer> entry : actorsMap.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue()+" movie(s)");
         }
-    }
-    
-    
-    public static void main(String[] args) {
-        System.setProperty("webdriver.chrome.driver", "./src/main/resources/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(imdbURL);
-        List<WebElement> links = driver.findElements(By.xpath("//td[@class=\"titleColumn\"]/a"));
-        List<String> urls = links.stream().map(element -> element.getAttribute("href")).collect(Collectors.toList());
-
-        ArrayList<IMDBMovie> filmList = new ArrayList<IMDBMovie>();
-
-        for (int i = 0; i < urls.size(); i++) {
-
-            String url = urls.get(i);
-            driver.get(url);
-            filmList.add(MovieParser.parsePage(driver));
-
-        }
-
-        showMoviesByYear(filmList);
-        showMoviesByMetascore(filmList);
-        showTheShortestMovie(filmList);
-        showNumberOfMoviesByDirector(filmList);
-        showDirectorsByAverageRate(filmList);
-        showActorsByAverageRate(filmList);
-
-        driver.close();
-
-
     }
 }

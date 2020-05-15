@@ -21,7 +21,8 @@ public class IMDBParser {
 
 
         WebElement rate = webElement.findElement(By.xpath(".//div[@class=\"inline-block ratings-imdb-rating\"]/strong"));
-        movie.rate = Float.valueOf(rate.getText());
+        movie.rate = Float.valueOf(rate.getText().replace(",", "."));
+
 
         List<WebElement> directors = webElement.findElements(By.xpath(".//span[@class=\"ghost\"]//preceding-sibling::a"));
         movie.directors = new ArrayList<>();

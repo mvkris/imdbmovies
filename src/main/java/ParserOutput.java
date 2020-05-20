@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ParserOutput {
+
     public static void showMoviesByYear(List<IMDBMovie> filmList) {
         filmList.sort((movie1, movie2) -> movie1.year - movie2.year);
         System.out.println("");

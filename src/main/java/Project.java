@@ -27,7 +27,7 @@ public class Project {
 
         parsePageElements();
 
-        while (!driver.findElements(By.xpath("//a[@class=\"lister-page-next next-page\"]")).isEmpty()) {
+        while (filmList.size() < 250) {
             driver.findElement(By.xpath("//a[@class=\"lister-page-next next-page\"]")).click();
             parsePageElements();
         }
@@ -39,13 +39,17 @@ public class Project {
         ParserOutput.showNumberOfMoviesByDirector(filmList);
         ParserOutput.showDirectorsByAverageRate(filmList);
         ParserOutput.showActorsByAverageRate(filmList);
+        ParserOutput.showNumberOfMoviesByActor(filmList);
 
         driver.close();
     }
 
     static void parsePageElements() {
 
+
         List<WebElement> moviesElements = wait.until(ExpectedConditions.numberOfElementsToBe(By.xpath("//div[@class=\"lister-item-content\"]"), 50));
+        System.out.println(driver.getCurrentUrl());
+        System.out.println(driver.getTitle());
         for (int i = 0; i < moviesElements.size(); i++) {
             IMDBMovie movie = IMDBParser.parsePage(moviesElements.get(i));
             filmList.add(movie);
